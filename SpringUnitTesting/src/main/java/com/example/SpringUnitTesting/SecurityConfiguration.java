@@ -1,5 +1,6 @@
 package com.example.SpringUnitTesting;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,28 +15,31 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/bitcoin")
-//                .hasAuthority("admin");
-
-        http.authorizeRequests()
-            .antMatchers("/crypto")
-            .authenticated()
-            .and()
-            .formLogin() // change httpBasic() to oauth2Login() for API resources
-            .and()
-            .logout();
-
-        // adding a rule to require authentication for all content via OAuth
         http.authorizeRequests()
                 .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2Login();
+                .permitAll();
+
+
+//        http.authorizeRequests()
+//            .anyRequest()
+//            .authenticated()
+//            .and()
+//            .formLogin() // change httpBasic() to oauth2Login() for API resources
+//            .and()
+//            .logout();
+
+
+//        // adding a rule to require authentication for all content via OAuth
+//        http.authorizeRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .oauth2Login();
 
         return http.build();
     }
